@@ -26,6 +26,12 @@ class _GamePanelWidgetState extends BaseStatefulWidget<GamePanelWidget> {
   GameBloc get _bloc => BlocProvider.of<GameBloc>(context);
 
   @override
+  void initState() {
+    super.initState();
+    _bloc.add(InitGameEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -44,8 +50,10 @@ class _GamePanelWidgetState extends BaseStatefulWidget<GamePanelWidget> {
                 }
               }
 
-              if (state.isWin) {
+              if (state.isWin & !state.isEnd) {
                 _showWonDialog();
+              } else if (state.isEnd & state.isEnd) {
+                _showEndDialog();
               } else if (state.curAttemptCount >= MAX_ATTEMPT) {
                 _showLostDialog();
               }
@@ -142,10 +150,14 @@ class _GamePanelWidgetState extends BaseStatefulWidget<GamePanelWidget> {
       width: device.width > MAX_WIDTH ? MAX_WIDTH - 12 : null,
       body: SizedBox(
         height: 80,
-        child: Center(
-          child: Text(
-            context.l10n.won,
-            style: context.bodyText1,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: Text(
+              "Sehr gut! Das wort hast du erraten :) Weiter zum nächsten.",
+              // context.l10n.won,
+              style: context.bodyText1,
+            ),
           ),
         ),
       ),
@@ -156,7 +168,38 @@ class _GamePanelWidgetState extends BaseStatefulWidget<GamePanelWidget> {
       headerAnimationLoop: false,
       keyboardAware: false,
       dismissOnBackKeyPress: true,
-      btnOkText: context.l10n.newGame,
+      btnOkText: "WEITER",
+      // context.l10n.newGame,
+    )..show();
+  }
+
+  void _showEndDialog() {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.BOTTOMSLIDE,
+      dialogType: DialogType.INFO,
+      bodyHeaderDistance: 42,
+      width: device.width > MAX_WIDTH ? MAX_WIDTH - 12 : null,
+      body: SizedBox(
+        height: 80,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: Text(
+              "Liebe Jule ich freue mich sehr, dass wir nächstes Jahr auf das Super Bloom gehen werden!",
+              // context.l10n.won,
+              style: context.bodyText1,
+            ),
+          ),
+        ),
+      ),
+      btnOkOnPress: () {},
+      dismissOnTouchOutside: false,
+      headerAnimationLoop: false,
+      keyboardAware: false,
+      dismissOnBackKeyPress: true,
+      btnOkText: "Yay!",
+      // context.l10n.newGame,
     )..show();
   }
 }

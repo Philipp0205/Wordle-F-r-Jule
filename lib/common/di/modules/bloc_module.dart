@@ -20,6 +20,7 @@ class BlocModule extends DIModule {
     getIt.registerFactory<GameBloc>(
       () => GameBloc(
         repository: getIt.get<AppRepository>(),
+        preferences: getIt.get<DataManager>(),
       ),
     );
   }

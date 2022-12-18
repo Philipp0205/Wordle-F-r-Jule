@@ -54,7 +54,8 @@ Future<void> showHelpDialog({required BuildContext context}) {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),
                         child: Text(
-                          context.l10n.howToPlay.toUpperCase(),
+                          "WIE MAN SPIELT",
+                          // context.l10n.howToPlay.toUpperCase(),
                           style: context.bodyText1,
                         ),
                       ),
@@ -68,17 +69,30 @@ Future<void> showHelpDialog({required BuildContext context}) {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _DecoratedTitleWidget(
-                                    title: context.l10n.helpTitle),
-                                _DecoratedPlainText(
-                                  text: context.l10n.helpDesc1,
+                                const _DecoratedTitleWidget(
+                                    title: "Frohe Weihnachten liebe Jule!"),
+                                // context.l10n.helpTitle),
+                                const _DecoratedPlainText(
+                                    text: "Ich hoffe du kennst WORDLE schon, "
+                                        "ansonsten hier eine kurze Anleitung:"
+                                    // context.l10n.helpDesc1,
+                                    ),
+                                const _DecoratedPlainText(
+                                    text:
+                                        "Du musst zwei Wörter mit 5 Lettern erraten. "
+                                        "Aber du hast nur 6 Versuche! "
+                                        "Drücker Enter um einen Versuch zu bestätigen."
+                                    // context.l10n.helpDesc2
+                                    ),
+                                const _DecoratedPlainText(
+                                    text: "Nach einem Versuch, ändert sich die "
+                                        "Farbe des Buchstabens je nach dem ob dieser richtig war oder nicht."
+                                    // context.l10n.helpDesc3
+                                    ),
+                                const _DecoratedTitleWidget(
+                                    title: "Beispiel"
+                                    // context.l10n.example
                                 ),
-                                _DecoratedPlainText(
-                                    text: context.l10n.helpDesc2),
-                                _DecoratedPlainText(
-                                    text: context.l10n.helpDesc3),
-                                _DecoratedTitleWidget(
-                                    title: context.l10n.example),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10.0),
@@ -102,8 +116,10 @@ Future<void> showHelpDialog({required BuildContext context}) {
                                     ],
                                   ),
                                 ),
-                                _DecoratedPlainText(
-                                    text: context.l10n.exampleDesc1),
+                                const _DecoratedPlainText(
+                                    text: "Das grüne W zeigt, dass es am richtigen Platz ist."
+                                    // context.l10n.exampleDesc1
+                                ),
                                 Row(
                                   children: const [
                                     _DecoratedTextBox(
@@ -118,8 +134,9 @@ Future<void> showHelpDialog({required BuildContext context}) {
                                         letter: "L", state: InputState.absent),
                                   ],
                                 ),
-                                _DecoratedPlainText(
-                                  text: context.l10n.exampleDesc2,
+                                const _DecoratedPlainText(
+                                  text: "Das gelbe 'I' zeigt, dass es im Wort vorkommt, aber nicht an der richtigen Stelle."
+                                  // context.l10n.exampleDesc2,
                                 ),
                                 Row(
                                   children: const [
@@ -135,8 +152,11 @@ Future<void> showHelpDialog({required BuildContext context}) {
                                         letter: "E", state: InputState.absent),
                                   ],
                                 ),
-                                _DecoratedPlainText(
-                                    text: context.l10n.exampleDesc3),
+                                const _DecoratedPlainText(
+                                  text: "Das die grauen Buchstaben zeigen, "
+                                      "dass sie nicht im Wort vorkommen."
+                                    // text: context.l10n.exampleDesc3
+                                ),
                               ]),
                         ),
                       ),
@@ -147,7 +167,8 @@ Future<void> showHelpDialog({required BuildContext context}) {
                         padding: const EdgeInsets.all(10.0),
                         child: TextButton(
                           child: Text(
-                            context.l10n.gotIt.toUpperCase(),
+                            "GO JULCHEN!!",
+                            // context.l10n.gotIt.toUpperCase(),
                             style: context.bodyText1?.copyWith(
                               color: Colors.grey[850],
                             ),

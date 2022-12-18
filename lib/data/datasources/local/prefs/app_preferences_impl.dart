@@ -34,4 +34,14 @@ class AppPreferencesImpl extends AppPreferences {
   void setDarkMode({required bool dark}) {
     sharedPreferences.setBool(AppPreferences.darkMode, dark);
   }
+
+  @override
+  List<String> getWords() {
+    return sharedPreferences.getStringList('words') ?? [];
+  }
+
+  @override
+  void saveWords(List<String> words) {
+    sharedPreferences.setStringList('words', words);
+  }
 }

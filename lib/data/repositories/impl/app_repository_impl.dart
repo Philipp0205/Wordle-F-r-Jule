@@ -24,4 +24,12 @@ class AppRepositoryImpl extends AppRepository {
       {required String guess, int size = 5}) {
     return api.verifyGuessDaily(guess, size);
   }
+
+  /// Save words to local storage
+  @override
+  void saveWords({required List<String> words}) {
+    dataManager.saveWords(words);
+  }
+
+
 }

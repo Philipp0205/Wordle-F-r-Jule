@@ -32,4 +32,17 @@ class DataManagerImpl extends DataManager {
   void setDarkMode({required bool dark}) {
     appPreferences.setDarkMode(dark: dark);
   }
+
+  @override
+  void saveWords(List<String> words) {
+    appPreferences.saveWords(words);
+  }
+
+  @override
+  List<String> getWords() {
+    return appPreferences.getWords();
+  }
+
+
+
 }

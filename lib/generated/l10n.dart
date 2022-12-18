@@ -93,7 +93,7 @@ class S {
   /// `WORDLE`
   String get gameTitle {
     return Intl.message(
-      'WORDLE',
+      'WORDLE FÜR JULE',
       name: 'gameTitle',
       desc: '',
       args: [],
@@ -103,7 +103,8 @@ class S {
   /// `How to play`
   String get howToPlay {
     return Intl.message(
-      'How to play',
+      // 'How to play',
+      'Wie man spielt',
       name: 'howToPlay',
       desc: '',
       args: [],

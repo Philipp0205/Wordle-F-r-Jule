@@ -11,6 +11,8 @@ class GameState extends Equatable {
     this.isWin = false,
     this.status = CheckState.idle,
     this.keyInputted,
+    this.words,
+    this.isEnd = false,
   });
 
   final String curAttempts;
@@ -18,8 +20,10 @@ class GameState extends Equatable {
   final bool acceptInput;
   final List<List<PanelItem>>? inputs;
   final bool isWin;
+  final bool isEnd;
   final CheckState status;
   final Map<String, InputState>? keyInputted;
+  final List<String>? words;
 
   @override
   List<Object?> get props => [
@@ -30,15 +34,18 @@ class GameState extends Equatable {
         isWin,
         status,
         keyInputted,
+        words
       ];
 
   GameState copyWith(
       {String? curAttempts,
       int? curAttemptCount,
       bool? acceptInput,
+      bool? isEnd,
       List<List<PanelItem>>? inputs,
       bool? isWin,
       CheckState? status,
+      List<String>? words,
       Map<String, InputState>? keyInputted}) {
     return GameState(
       curAttempts: curAttempts ?? this.curAttempts,
@@ -48,6 +55,8 @@ class GameState extends Equatable {
       isWin: isWin ?? this.isWin,
       status: status ?? this.status,
       keyInputted: keyInputted ?? this.keyInputted,
+      words: words ?? this.words,
+      isEnd: isEnd ?? this.isEnd,
     );
   }
 }

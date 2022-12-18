@@ -28,3 +28,7 @@ class VerifyGuessEvent extends GameEvent {
 class ResetNewGameEvent extends GameEvent {}
 
 class ResetCheckStateEvent extends GameEvent {}
+
+class InitGameEvent extends GameEvent {}
+
+class EndGameEvent extends GameEvent {}

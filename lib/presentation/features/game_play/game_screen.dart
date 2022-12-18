@@ -26,7 +26,8 @@ class _GameScreenState extends State<GameScreen> {
         shadowColor: Colors.transparent,
         automaticallyImplyLeading: false,
         title: Text(
-          context.l10n.gameTitle.toUpperCase(),
+          "WORLDE FÜR JULE",
+          // context.l10n.gameTitle.toUpperCase(),
           style: context.headline3,
         ),
         actions: [

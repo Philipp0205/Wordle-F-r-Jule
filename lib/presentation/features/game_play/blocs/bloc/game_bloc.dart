@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
-//import 'package:english_words/english_words.dart' as words;
+
 import 'package:equatable/equatable.dart';
 
+import '../../../../../data/datasources/local/data_manager.dart';
 import '../../../../../data/models/guess_daily_result/guess_daily_result.dart';
 import '../../../../../data/repositories/app_repository.dart';
 import '../../../../utils/game_mode.dart';
@@ -10,17 +13,21 @@ import '../../../../utils/type/input_type.dart';
 import '../../../../widgets/keyboard_widget.dart';
 
 part 'game_event.dart';
+
 part 'game_state.dart';
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   final AppRepository repository;
+  final AppPreferences preferences;
 
-  GameBloc({required this.repository})
+  GameBloc({required this.repository, required this.preferences})
       : super(GameState(inputs: initialInputs)) {
     on<InputEvent>(_handleInputEvent);
     on<VerifyGuessEvent>(_verifyGuessEvent);
     on<ResetNewGameEvent>(_onResetGameEvent);
     on<ResetCheckStateEvent>(_onResetCheckState);
+    on<InitGameEvent>(_initGame);
+    on<EndGameEvent>(_endGame);
   }
 
   void _onResetCheckState(ResetCheckStateEvent event, Emitter<GameState> emit) {
@@ -30,7 +37,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onResetGameEvent(ResetNewGameEvent event, Emitter<GameState> emit) {
-    emit(GameState(inputs: initialInputs));
+    List<String> words = preferences.getWords();
+    emit(GameState(inputs: initialInputs, words: words));
+  }
+
+  /// Called one time on initial launch.
+  /// Saves the two words to local storage
+  void _initGame(InitGameEvent event, Emitter<GameState> emit) {
+    List<String> words = ['SUPER', 'BLOOM'];
+    preferences.saveWords(words);
+
+    emit(state.copyWith(
+      words: words,
+    ));
   }
 
   void _verifyGuessEvent(
@@ -40,10 +59,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     try {
       //! need find better solution for word check
       // final checkWord = words.all.contains(event.guess.toLowerCase());
+      // final checkWord = state.words?.contains(event.guess);
 
-      // if (!checkWord) {
+      // if (checkWord!) {
       //   emit(state.copyWith(
       //     status: CheckState.mismatched,
+      //     // status: CheckState.success,
       //   ));
       //   return;
       // }
@@ -53,7 +74,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
       ));
 
       final guess = event.guess;
-      final results = await repository.verifyGuessDaily(guess: guess);
+      // final results = await repository.verifyGuessDaily(guess: guess);
+      final results = repository.verifyGuessDailyLocal(
+          guess: guess, solution: state.words!.first);
       final inputs = state.inputs;
       final currentAttempt = state.curAttemptCount;
       final currentGuess = inputs?[currentAttempt];
@@ -79,12 +102,29 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         }
       }
 
+      List<String>? words = state.words;
+      bool isEnd = false;
+
+      if (isCorrect) {
+        words = preferences.getWords();
+
+        words.removeAt(0);
+        preferences.saveWords(words);
+        print('words: $words');
+
+        if (words.isEmpty) {
+          isEnd = true;
+        }
+      }
+
       emit(
         state.copyWith(
           inputs: inputs,
           curAttemptCount: currentAttempt + 1,
           curAttempts: '',
           isWin: isCorrect,
+          isEnd: isEnd,
+          words: words,
           acceptInput: currentAttempt + 1 < MAX_ATTEMPT,
           status: CheckState.success,
           keyInputted: keyInputted,
@@ -154,6 +194,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         break;
     }
   }
+
+  void _endGame(EndGameEvent event, Emitter<GameState> emit) {}
 }
 
 List<List<PanelItem>> get initialInputs {
